@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 int main(){
     pid_t t;
@@ -16,6 +17,7 @@ int main(){
         puts("inside parent process");
         wait(NULL);
         puts("child complete");
+        sleep(6000);
         return 0;
     }
 }
