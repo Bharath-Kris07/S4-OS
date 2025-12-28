@@ -16,6 +16,7 @@ int main(){
     for(j=0;j<5000000;j++) getpid();
     puts("Sleeping for 6000 seconds");
     printf("Run this command now:  cat /proc/%d/stat\n",pid);
+    //// cat /proc/[proc id]/stat | awk '{print"User mode: ",$14,"\n Kernel mode: ",$15}'
     sleep(6000);
     return 0;
 }

@@ -15,7 +15,6 @@ int main() {
     }
     else {
         printf("Parent Process: PID = %d (I created Child %d)\n", getpid(), pid);
-        // cat /proc/[proc id]/stat | awk '{print"User mode: ",$14,"\n Kernel mode: ",$15}'
         sleep(80);
     }
     return 0;
