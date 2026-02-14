@@ -89,7 +89,6 @@ void srtf(Process p[], int n) {
 int HighestPrio(Process p[], int n, int current_time, bool visited[]) {
     int max_prio = -1; 
     int index = -1;
-    
     for (int i = 0; i < n; i++) {
         if (p[i].at <= current_time && !visited[i]) {
             if (p[i].prio > max_prio) {
