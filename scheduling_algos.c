@@ -75,7 +75,6 @@ void srtf(Process p[], int n) {
         }
         p[s_index].rt--;
         current_time++;
-        
         if (p[s_index].rt == 0) {
             completed++;
             int tat = current_time - p[s_index].at;
