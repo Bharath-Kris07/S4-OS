@@ -15,6 +15,7 @@ void* reader(void *arg){
     printf("Reader %d is READING. Data: %d (Active Readers: %d)\n", id, data, readcount);
     sleep(1);           
     sem_wait(&mutex1);
+    readcount--;
     if (readcount == 0) sem_post(&wrt); 
     sem_post(&mutex1);     
     return NULL;
