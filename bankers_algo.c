@@ -12,12 +12,12 @@ int main(){
     for(int i=0;i<n;i++){
         p[i].id=i;
         p[i].completed=0;
-        printf("Enter the allocated resources for process %d",i);
+        printf("Enter the allocated resources for process : %d",i);
         scanf("%d %d %d", &p[i].alloc[0], &p[i].alloc[1], &p[i].alloc[2]);
-        printf("Enter the max resources for process %d",i);
+        printf("Enter the max resources for process : %d",i);
         scanf("%d %d %d", &p[i].max[0], &p[i].max[1], &p[i].max[2]);   
     }
-    printf("Enter the available resource matrix");
+    printf("Enter the available resource matrix : ");
     scanf("%d %d %d",&avail[0],&avail[1],&avail[2]);
     for(int i=0;i<n;i++)
         for(int j=0;j<3;j++) p[i].need[j]=p[i].max[j]-p[i].alloc[j];
