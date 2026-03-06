@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/types.h>
-#include <string.h>
 #include <sys/shm.h>
 #include <sys/wait.h>
 #include <sys/ipc.h>
