@@ -50,9 +50,7 @@ int main(){
         printf("Enter string 3: ");
         scanf("%s", shm_pointer->str3);
         shm_pointer->status = 1;
-        while (shm_pointer->status != 2) {
-            sleep(1);
-        }
+        while (shm_pointer->status != 2) sleep(1);
         printf("\n[PARENT] Received concatenated string: %s\n", shm_pointer->res);
         for (int i = 0; shm_pointer->res[i] != '\0'; i++) {
             if (islower(shm_pointer->res[i])) {
