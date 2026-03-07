@@ -10,9 +10,7 @@ float avg_wt_fcfs, avg_wt_srtf, avg_wt_pri, avg_wt_rr;
 void reset_processes(Process p[], int n) {
     for (int i = 0; i < n; i++) {
         p[i].rt = p[i].bt; 
-        p[i].ct = 0;
-        p[i].wt = 0;
-        p[i].tat = 0;
+        p[i].ct = p[i].tat =p[i].wt = 0;
     }
 }
 int sort(const void *a,const void *b){
