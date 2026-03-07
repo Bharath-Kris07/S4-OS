@@ -140,8 +140,7 @@ void roundrobin(Process p[], int n, int qt) {
     int i = 0;
     while(i < n && p[i].at <= current_time) {
         queue[rear++] = i;
-        in_queue[i] = true;
-        i++;
+        in_queue[i++] = true;
     }
     printf("\n--- ROUND ROBIN ---\n");
     while (completed < n) {
@@ -149,8 +148,7 @@ void roundrobin(Process p[], int n, int qt) {
             current_time++;
             while(i < n && p[i].at <= current_time) {
                 queue[rear++] = i;
-                in_queue[i] = true;
-                i++;
+                in_queue[i++] = true;
             }
             continue;
         }
