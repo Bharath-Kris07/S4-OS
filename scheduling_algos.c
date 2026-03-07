@@ -145,12 +145,8 @@ void roundrobin(Process p[], int n, int qt) {
             continue; 
         }
         int idx = queue[front]; 
-        if (front == rear) {
-            front = -1;
-            rear = -1;
-        } else {
-            front = (front + 1) % MAX;
-        }
+        if (front == rear) front = rear=-1;
+        else front = (front + 1) % MAX;
         in_queue[idx] = false;
         int time_slice = (p[idx].rt > qt) ? qt : p[idx].rt;
         p[idx].rt -= time_slice;
