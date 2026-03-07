@@ -136,9 +136,7 @@ void roundrobin(Process p[], int n, int qt) {
     int current_time = 0;
     int completed = 0;
     float total_wt = 0;
-    if (n > 0) {
-        current_time = p[0].at; 
-    }
+    if (n > 0)  current_time = p[0].at; 
     int i = 0;
     while(i < n && p[i].at <= current_time) {
         queue[rear++] = i;
