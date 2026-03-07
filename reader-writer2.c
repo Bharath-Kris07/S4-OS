@@ -26,15 +26,15 @@ void *reader(void *arg){
     return NULL;
 }
 int main(){
-    pthread_t r[5],l[5];
+    pthread_t r[5],w[5];
     sem_init(&mutex,0,1);
     sem_init(&wrt,0,1);
     for(int i=0;i<5;i++){
-        pthread_create(&l[i],NULL,writer,NULL);
+        pthread_create(&w[i],NULL,writer,NULL);
         pthread_create(&r[i],NULL,reader,NULL);
     }
     for(int i=0;i<5;i++){
-        pthread_join(l[i],NULL);
+        pthread_join(w[i],NULL);
         pthread_join(r[i],NULL);
     }
     sem_destroy(&mutex);
