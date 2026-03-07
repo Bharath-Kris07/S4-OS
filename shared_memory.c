@@ -8,10 +8,7 @@
 #include <ctype.h>
 struct shared_data{
     int status;
-    char str1[100];
-    char str2[200];
-    char str3[100];
-    char res[300];
+    char str1[100],str2[100],str3[100],res[300];
 };
 int main(){
     pid_t t;
