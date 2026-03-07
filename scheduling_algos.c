@@ -121,51 +121,61 @@ void priority_non_preemptive(Process p[], int n) {
     printf("Avg WT: %.2f\n", avg_wt_pri);
 }
 void roundrobin(Process p[], int n, int qt) {
-    reset_processes(p, n); 
+    reset_processes(p, n);
     int queue[MAX]; 
-    int front = 0, rear = 0;
     bool in_queue[MAX] = { false }; 
-    int current_time = 0;
-    int completed = 0;
+    int current_time=0,completed=0,i=0,front=-1,rear=-1;
     float total_wt = 0;
-    if (n > 0)  current_time = p[0].at; 
-    int i = 0;
     while(i < n && p[i].at <= current_time) {
-        queue[rear++] = i;
+        if (front == -1) front = 0;
+        rear = (rear + 1) % MAX;
+        queue[rear] = i;
         in_queue[i++] = true;
     }
     printf("\n--- ROUND ROBIN ---\n");
     while (completed < n) {
-        if (front == rear) { 
+        if (front == -1) { 
             current_time++;
             while(i < n && p[i].at <= current_time) {
-                queue[rear++] = i;
+                if (front == -1) front = 0; 
+                rear = (rear + 1) % MAX;
+                queue[rear] = i;
                 in_queue[i++] = true;
             }
-            continue;
+            continue; 
         }
-        int idx = queue[front++]; 
+        int idx = queue[front]; 
+        if (front == rear) {
+            front = -1;
+            rear = -1;
+        } else {
+            front = (front + 1) % MAX;
+        }
         in_queue[idx] = false;
         int time_slice = (p[idx].rt > qt) ? qt : p[idx].rt;
         p[idx].rt -= time_slice;
         current_time += time_slice;
         while(i < n && p[i].at <= current_time) {
             if(!in_queue[i] && p[i].rt > 0) { 
-                queue[rear++] = i;
+                if (front == -1) front = 0;
+                rear = (rear + 1) % MAX;
+                queue[rear] = i;
                 in_queue[i] = true;
             }
             i++;
         }  
         if (p[idx].rt > 0) {
-            queue[rear++] = idx;
+            if (front == -1) front = 0;
+            rear = (rear + 1) % MAX;
+            queue[rear] = idx;
             in_queue[idx] = true;
         } else {
             completed++;
             p[idx].ct = current_time;
             p[idx].tat = p[idx].ct - p[idx].at;
             p[idx].wt = p[idx].tat - p[idx].bt;
-            total_wt += p[idx].wt;
-            printf("P%d\t WT=%d\n", p[idx].pid, p[idx].wt);
+            total_wt += p[idx].wt;      
+            printf("P%d\t CT=%d\t TAT=%d\t WT=%d\n", p[idx].pid, p[idx].ct, p[idx].tat, p[idx].wt);
         }
     }
     avg_wt_rr = total_wt / n;
