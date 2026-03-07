@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
+#include <stdlib.h>
 #define MAX 100
 typedef struct process {
     int pid,bt,at,prio,rt,ct,wt,tat 
@@ -14,17 +15,10 @@ void reset_processes(Process p[], int n) {
         p[i].tat = 0;
     }
 }
-void sort(Process p[], int n) {
-    Process temp;
-    for (int i = 0; i < n - 1; i++) {
-        for (int j = 0; j < n - i - 1; j++) {
-            if (p[j].at > p[j + 1].at) {
-                temp = p[j];
-                p[j] = p[j + 1];
-                p[j + 1] = temp;
-            }
-        }
-    }
+int sort(const void *a,const void *b){
+    Process *m=(Process*)a;
+    Process *n=(Process*)b;
+    return (m->at-n->at);
 }
 void fcfs(Process p[], int n) {
     reset_processes(p, n); 
@@ -192,7 +186,7 @@ int main() {
     }
     printf("Enter the time quantum: ");
     scanf("%d", &qt);
-    sort(p, n);
+    qsort(p, n,sizeof(Process), sort);
     fcfs(p, n);
     srtf(p, n);
     priority_non_preemptive(p, n);
