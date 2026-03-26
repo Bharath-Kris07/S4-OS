@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 int main(int argc, char *argv[]) {
     if (argc != 4) {
         return 1;
