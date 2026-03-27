@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <limits.h>
 #include <stdlib.h>
 #define MAX 100
@@ -123,14 +122,13 @@ void priority_non_preemptive(Process p[], int n) {
 void roundrobin(Process p[], int n, int qt) {
     reset_processes(p, n);
     int queue[MAX]; 
-    bool in_queue[MAX] = { false }; 
-    int current_time=0,completed=0,i=0,front=-1,rear=-1;
+    int current_time=0, completed=0, i=0, front=-1, rear=-1;
     float total_wt = 0;
     while(i < n && p[i].at <= current_time) {
         if (front == -1) front = 0;
         rear = (rear + 1) % MAX;
         queue[rear] = i;
-        in_queue[i++] = true;
+        i++; 
     }
     printf("\n--- ROUND ROBIN ---\n");
     while (completed < n) {
@@ -140,23 +138,21 @@ void roundrobin(Process p[], int n, int qt) {
                 if (front == -1) front = 0; 
                 rear = (rear + 1) % MAX;
                 queue[rear] = i;
-                in_queue[i++] = true;
+                i++;
             }
             continue; 
         }
         int idx = queue[front]; 
         if (front == rear) front = rear=-1;
         else front = (front + 1) % MAX;
-        in_queue[idx] = false;
         int time_slice = (p[idx].rt > qt) ? qt : p[idx].rt;
         p[idx].rt -= time_slice;
         current_time += time_slice;
-        while(i < n && p[i].at <= current_time) {
-            if(!in_queue[i] && p[i].rt > 0) { 
+        while(i < n && p[i].at <= current_time) { 
+            if (p[i].rt > 0) {
                 if (front == -1) front = 0;
                 rear = (rear + 1) % MAX;
                 queue[rear] = i;
-                in_queue[i] = true;
             }
             i++;
         }  
@@ -164,7 +160,6 @@ void roundrobin(Process p[], int n, int qt) {
             if (front == -1) front = 0;
             rear = (rear + 1) % MAX;
             queue[rear] = idx;
-            in_queue[idx] = true;
         } else {
             completed++;
             p[idx].ct = current_time;
