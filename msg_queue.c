@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/ipc.h>
+#include <sys/wait.h>
 #include <sys/msg.h>
 struct note{
     long type;
@@ -34,6 +35,7 @@ int main(){
         printf("[Child] Reversed to %s\n",note.text);
         note.type=2;
         msgsnd(queue_id,&note,sizeof(note.text),0);
+        exit(0);
     }else{
         char string[100];
         printf("\n enter the string: ");
@@ -42,6 +44,7 @@ int main(){
         strcpy(note.text,string);
         msgsnd(queue_id,&note,sizeof(note.text),0);
         msgrcv(queue_id,&note,sizeof(note.text),2,0);
+        wait(NULL);
         printf("\n [Parent] received : %s\n",note.text);
         if(strcmp(note.text,string)==0)
             puts("it is palindrome");
