@@ -36,7 +36,7 @@ void look(int *req, int n, int start) {
     printf("LOOK Total Movement: %d\n", total);
 }
 void cscan(int *req, int n, int start) {
-    int sorted[n], total = 0, current = start, split = -1;
+    int sorted [n], total = 0, current = start, split = -1;
     for (int i = 0; i < n; i++) sorted[i] = req[i];
     qsort(sorted, n, sizeof(int), compare);
     for (int i = 0; i < n; i++) if (sorted[i] >= start) { split = i; break; }
