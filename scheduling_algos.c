@@ -120,8 +120,10 @@ void priority_non_preemptive(Process p[], int n) {
 void roundrobin(Process p[], int n, int qt) {
     reset_processes(p, n);
     int queue[MAX]; 
-    int current_time=0, completed=0, i=0, front=-1, rear=-1;
+    int current_time = 0, completed = 0, i = 0, front = -1, rear = -1;
     float total_wt = 0;
+    int timeline[1000], order[1000], pos = 0; 
+    timeline[0] = 0;
     while(i < n && p[i].at <= current_time) {
         if (front == -1) front = 0;
         rear = (rear + 1) % MAX;
@@ -130,8 +132,11 @@ void roundrobin(Process p[], int n, int qt) {
     }
     printf("\n--- ROUND ROBIN ---\n");
     while (completed < n) {
-        if (front == -1) { 
-            current_time++;
+        if (front == -1) {
+            order[pos] = -1; 
+            current_time = p[i].at; 
+            timeline[pos + 1] = current_time;
+            pos++;
             while(i < n && p[i].at <= current_time) {
                 if (front == -1) front = 0; 
                 rear = (rear + 1) % MAX;
@@ -141,17 +146,18 @@ void roundrobin(Process p[], int n, int qt) {
             continue; 
         }
         int idx = queue[front]; 
-        if (front == rear) front = rear=-1;
+        order[pos] = p[idx].pid; 
+        if (front == rear) front = rear = -1;
         else front = (front + 1) % MAX;
         int time_slice = (p[idx].rt > qt) ? qt : p[idx].rt;
         p[idx].rt -= time_slice;
         current_time += time_slice;
+        timeline[pos + 1] = current_time;
+        pos++;
         while(i < n && p[i].at <= current_time) { 
-            if (p[i].rt > 0) {
-                if (front == -1) front = 0;
-                rear = (rear + 1) % MAX;
-                queue[rear] = i;
-            }
+            if (front == -1) front = 0;
+            rear = (rear + 1) % MAX;
+            queue[rear] = i;
             i++;
         }  
         if (p[idx].rt > 0) {
@@ -169,6 +175,14 @@ void roundrobin(Process p[], int n, int qt) {
     }
     avg_wt_rr = total_wt / n;
     printf("Avg WT: %.2f\n", avg_wt_rr);
+    printf("\nGantt Chart:\n");
+    for (int j = 0; j < pos; j++) {
+        if (order[j] == -1) printf("| IDLE ");
+        else printf("|  P%d  ", order[j]);
+    }
+    printf("|\n");
+    for (int j = 0; j <= pos; j++) printf("%-7d", timeline[j]); 
+    printf("\n");
 }
 int main() {
     int n, qt;
