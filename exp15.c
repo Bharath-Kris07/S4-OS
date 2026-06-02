@@ -63,6 +63,7 @@ void optimal(int *ref, int n, int frames) {
                     int k;
                     for(k=i+1; k<n; k++) if(f[j] == ref[k]) break;
                     if(k > farthest) { farthest = k; pos = j; }
+                    if(k == n) { pos = j; break; }
                 }
             }
             f[pos] = ref[i];
